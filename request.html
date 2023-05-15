@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Image Prediction</title>
+</head>
+<body>
+  <h1>Image Prediction</h1>
+  <input type="file" id="imageInput">
+  <button onclick="predict()">Predict</button>
+  <div id="predictionResult"></div>
+
+  <script>
+    function predict() {
+      // Get the selected image file
+      var imageFile = document.getElementById('imageInput').files[0];
+
+      // Create a FormData object to send the file as multipart/form-data
+      var formData = new FormData();
+      formData.append('image', imageFile);
+
+      // Send a POST request to the server
+      fetch('https://sushantkumarms.pythonanywhere.com/predict', {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        // Display the prediction result
+        document.getElementById('predictionResult').textContent = 'Prediction: ' + data.prediction;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+    }
+  </script>
+</body>
+</html>
